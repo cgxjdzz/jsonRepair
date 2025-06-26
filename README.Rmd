@@ -1,4 +1,4 @@
-# jsonRepair <img src="https://img.shields.io/badge/R-✔️-success" alt="R badge"/>
+# jsonRepair
 
 *A lightweight R package to automatically fix malformed JSON strings—especially those produced by Large Language Models (LLMs).*
 
