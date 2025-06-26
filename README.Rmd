@@ -1,54 +1,48 @@
----
-output: github_document
----
+# jsonRepair <img src="https://img.shields.io/badge/R-✔️-success" alt="R badge"/>
 
-<!-- README.md is generated from README.Rmd. Please edit that file -->
+*A lightweight R package to automatically fix malformed JSON strings—especially those produced by Large Language Models (LLMs).*
 
-```{r, include = FALSE}
-knitr::opts_chunk$set(
-  collapse = TRUE,
-  comment = "#>",
-  fig.path = "man/figures/README-",
-  out.width = "100%"
-)
+> *"Some LLMs are a bit iffy when it comes to returning well‑formed JSON data—sometimes they skip a parenthesis, sometimes they add an extra word. Luckily, the mistakes LLMs make are simple enough to be fixed without destroying the content… I searched for a lightweight R package that was able to reliably fix this problem but couldn't find any. So I copy one."*
+
+## ✨ Key Features
+
+* **Self‑healing JSON** – Detects and repairs the most common structural issues: missing/extra commas, mismatched brackets, single quotes, comments, unescaped control characters, and more.
+* **`jsonlite` friendly** – Optionally returns an R object via `jsonlite::fromJSON()` or the repaired JSON text.
+* **Zero heavy dependencies** – Only needs base R and `jsonlite`.
+
+## 🧑‍💻 Why This Package?
+
+1. **LLMs love to bend the JSON spec.** If you call an LLM from R and ask it to emit JSON, chances are you'll face dangling commas, stray quotes, or plain text mixed in the payload.
+2. **Existing solutions are Python‑only.** The excellent [`json_repair`](https://github.com/mangiucugna/json_repair) library inspired this work, but I needed the same logic in native R for seamless data pipelines.
+3. **One‑to‑one logic port.** This package is a *line‑by‑line* re‑implementation of the original algorithm, translated from Python to R.
+
+## 🚀 Installation
+
+```r
+# install.packages("devtools") if you haven't yet
+# install directly from GitHub
+remotes::install_github("cgxjdzz/jsonRepair")
 ```
 
-# jsonRepair
+## ⚡ Quick Start
 
-<!-- badges: start -->
-<!-- badges: end -->
-
-The goal of jsonRepair is to ...
-
-## Installation
-
-You can install the development version of jsonRepair like so:
-
-``` r
-# FILL THIS IN! HOW CAN PEOPLE INSTALL YOUR DEV PACKAGE?
-```
-
-## Example
-
-This is a basic example which shows you how to solve a common problem:
-
-```{r example}
+```r
 library(jsonRepair)
-## basic example code
+
+broken <- '{"number": 1,"reason": "According...""ans": "YES"}'
+
+# Return as an R list (default)
+repaired_obj <- repair_json(broken)
+print(repaired_obj)
+#> $number
+#> [1] 1
+#> $reason
+#> [1] "According..."
+#> $ans
+#> [1] "YES"
+
+# Or get the repaired JSON string
+repaired_txt <- repair_json(broken, return_objects = FALSE)
+cat(repaired_txt)
+# {"number":1,"reason":"According...","ans":"YES"}
 ```
-
-What is special about using `README.Rmd` instead of just `README.md`? You can include R chunks like so:
-
-```{r cars}
-summary(cars)
-```
-
-You'll still need to render `README.Rmd` regularly, to keep `README.md` up-to-date. `devtools::build_readme()` is handy for this.
-
-You can also embed plots, for example:
-
-```{r pressure, echo = FALSE}
-plot(pressure)
-```
-
-In that case, don't forget to commit and push the resulting figure files, so they display on GitHub and CRAN.
