@@ -1,6 +1,12 @@
-# jsonRepair
+# jsonRepair  
 
-*A lightweight R package to automatically fix malformed JSON strings—especially those produced by Large Language Models (LLMs).*
+
+
+
+
+
+*A lightweight R package to automatically fix malformed JSON strings—especially those produced by Large Language Models (LLMs).*  
+
 
 > *"Some LLMs are a bit iffy when it comes to returning well‑formed JSON data—sometimes they skip a parenthesis, sometimes they add an extra word. Luckily, the mistakes LLMs make are simple enough to be fixed without destroying the content… I searched for a lightweight R package that was able to reliably fix this problem but couldn't find any. So I copy one."*
 
